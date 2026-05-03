@@ -38,9 +38,11 @@ KriptoSancak, **"Gözlem yoluyla güvenlik"** yerine **"Tasarım yoluyla güvenl
 *   **Asimetrik Yapılar:** Elliptic Curve Cryptography (Ed25519, NIST P-256) ve güvenli anahtar değişim protokolleri (ECDH).
 *   **Bütünlük Kontrolü:** SHA-3 (Keccak) ailesi ve HMAC tabanlı veri doğrulama mekanizmaları.
 
-### 2. Gelişmiş Protokoller
-*   **Sıfır Bilgi Kanıtları (ZKP):** Veriyi ifşa etmeden doğruluğunu ispatlayan protokol tasarımları.
-*   **Homomorfik Şifreleme:** Veri üzerinde şifreli haldeyken işlem yapabilme yeteneği üzerine araştırma ve POC çalışmaları.
+### 2. Gelişmiş ve Deneysel Protokoller (Research POCs)
+*   **Sıfır Bilgi Kanıtları (ZKP):** Pedersen Commitment şeması ile veriyi ifşa etmeden doğrulama altyapısı.
+*   **Kuantum Sonrası Direnç (PQC):** Kafes tabanlı şifrelemenin temeli olan **Learning With Errors (LWE)** POC uygulaması.
+*   **Otonom Savunma (AEL):** Tehdit seviyelerine göre dinamik algoritma seçimi yapan otonom şifreleme katmanı.
+*   **Veri Egemenliği:** **DID (Decentralized Identity)** ve SSI temelli kimlik doğrulama simülasyonları.
 
 ---
 
