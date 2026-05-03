@@ -5,34 +5,50 @@ import os
 # Add core to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from core.crypto_engine import CryptoEngine
+from core.asymmetric import AsymmetricEngine
+from core.hashing import HashEngine
 
-def benchmark_algorithm(name, encrypt_func, decrypt_func, data_size_mb=50):
+def benchmark_symmetric(name, encrypt_func, decrypt_func, data_size_mb=50):
     print(f"\n--- Benchmarking {name} ({data_size_mb} MB) ---")
     data = os.urandom(data_size_mb * 1024 * 1024)
     key = CryptoEngine.generate_key()
-
-    # Encryption
     start_time = time.time()
     encrypted = encrypt_func(key, data)
-    end_time = time.time()
-    enc_time = end_time - start_time
+    enc_time = time.time() - start_time
     print(f"Encryption: {enc_time:.4f}s ({data_size_mb / enc_time:.2f} MB/s)")
 
-    # Decryption
+def benchmark_hashing(name, hash_func, data_size_mb=100):
+    print(f"\n--- Benchmarking {name} ({data_size_mb} MB) ---")
+    data = os.urandom(data_size_mb * 1024 * 1024)
     start_time = time.time()
-    decrypted = decrypt_func(key, encrypted)
-    end_time = time.time()
-    dec_time = end_time - start_time
-    print(f"Decryption: {dec_time:.4f}s ({data_size_mb / dec_time:.2f} MB/s)")
+    hash_func(data)
+    h_time = time.time() - start_time
+    print(f"Hashing Speed: {h_time:.4f}s ({data_size_mb / h_time:.2f} MB/s)")
 
-    if data == decrypted:
-        print("Integrity Check: PASSED")
-    else:
-        print("Integrity Check: FAILED")
+def benchmark_asymmetric(name, count=1000):
+    print(f"\n--- Benchmarking {name} ({count} operations) ---")
+    priv, pub = AsymmetricEngine.generate_ed25519_keys()
+    data = b"KriptoSancak Security Benchmark"
+    
+    # Signing
+    start_time = time.time()
+    for _ in range(count):
+        AsymmetricEngine.sign_ed25519(priv, data)
+    s_time = time.time() - start_time
+    print(f"Signing Speed: {count / s_time:.2f} op/s")
+
+    # Verification
+    sig = AsymmetricEngine.sign_ed25519(priv, data)
+    start_time = time.time()
+    for _ in range(count):
+        AsymmetricEngine.verify_ed25519(pub, sig, data)
+    v_time = time.time() - start_time
+    print(f"Verification Speed: {count / v_time:.2f} op/s")
 
 if __name__ == "__main__":
-    print("KriptoSancak Performance Analysis Tool")
-    print("=" * 40)
+    print("KriptoSancak Comprehensive Performance Analysis")
+    print("=" * 50)
     
-    benchmark_algorithm("AES-256-GCM", CryptoEngine.aes_encrypt, CryptoEngine.aes_decrypt)
-    benchmark_algorithm("ChaCha20-Poly1305", CryptoEngine.chacha_encrypt, CryptoEngine.chacha_decrypt)
+    benchmark_symmetric("AES-256-GCM", CryptoEngine.aes_encrypt, CryptoEngine.aes_decrypt)
+    benchmark_hashing("SHA3-256", HashEngine.sha3_256)
+    benchmark_asymmetric("Ed25519 Sign/Verify")
