@@ -1,11 +1,11 @@
-# <p align="center">🚩 KriptoSancak 🚩</p>
+# <p align="center">🎓 KriptoSancak: Kriptoloji Mühendisliği Müfredatı 🎓</p>
 
 <p align="center">
   <img src="assets/banner.png" alt="KriptoSancak Banner" width="100%">
 </p>
 
 <p align="center">
-  <strong>Dijital dünyada veri güvenliğini mühendislik disipliniyle ele alan, teorik matematiği pratik ve sarsılmaz savunma mekanizmalarına dönüştürmeyi amaçlayan kapsamlı bir kriptoloji merkezi.</strong>
+  <strong>Bu depo, dijital dünyada veri güvenliğini inşa edecek olan "Kriptoloji Mühendisleri" için hazırlanmış kapsamlı bir eğitim müfredatı, teknik dökümantasyon arşivi ve mühendislik uygulama merkezidir.</strong>
 </p>
 
 <p align="center">
