@@ -51,10 +51,19 @@ Güvenlik statik bir duvar değil, yaşayan bir organizmadır. Gelecek planları
 
 ---
 
+## 🎓 Kriptoloji Mühendisliği Müfredatı
+
+KriptoSancak, sadece bir teknoloji merkezi değil, aynı zamanda bir eğitim ocağıdır. Sektöre nitelikli kriptoloji mühendisleri kazandırmak amacıyla hazırladığımız kapsamlı müfredata buradan ulaşabilirsiniz:
+
+👉 **[Müfredatı İncele](curriculum/README.md)**
+
+---
+
 ## 📂 Proje Yapısı
 
 ```text
 KriptoSancak/
+├── curriculum/       # Kriptoloji Mühendisliği Müfredatı
 ├── core/             # Temel algoritmalar ve matematiksel kütüphaneler
 ├── post-quantum/     # Kuantum dirençli algoritma çalışmaları
 ├── privacy/          # ZKP ve mahremiyet odaklı implementasyonlar
