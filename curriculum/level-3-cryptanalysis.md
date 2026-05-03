@@ -3,22 +3,30 @@
 Güvenli sistemler tasarlamak için algoritmaların nasıl kırıldığını bilmek zorunludur.
 
 ## ⚔️ 1. Matematiksel Saldırılar
-- **Brute-Force ve Sözlük Saldırıları.**
-- **Diferansiyel Kriptoanaliz (Differential Cryptanalysis).**
-- **Lineer Kriptoanaliz (Linear Cryptanalysis).**
-- **Doğum Günü Saldırısı (Birthday Attack).**
+- **Blok Şifre Analizi:** Diferansiyel ve Lineer Kriptoanaliz yöntemleri.
+- **Hash Saldırıları:** Birthday Attack ve Rainbow Tables.
+- **Asimetrik Analiz:** Index Calculus, Pollard's Rho, Weiner's Attack (RSA).
 
-## 🕵️ 2. Uygulama ve Yan Kanal Saldırıları (Side-Channel Attacks)
+## 🕵️ 2. Yan Kanal Saldırıları (Side-Channel Attacks)
 Modern sistemlerde zafiyet genellikle matematikte değil, implementasyondadır.
 
-- **Zamanlama Saldırıları (Timing Attacks):** Constant-time kod yazmanın önemi.
-- **Güç Analizi (Power Analysis):** SPA (Simple) ve DPA (Differential).
-- **Elektromanyetik ve Akustik Sızıntılar.**
-- **Hata Enjeksiyonu (Fault Injection):** Rowhammer, Voltaj manipülasyonu.
+- **Zamanlama (Timing):** Cache-timing saldırıları (Spectre/Meltdown bağlantısı).
+- **Güç Analizi:** SPA ve DPA saldırılarına karşı koruma yöntemleri (Masking, Hiding).
+- **Hata Enjeksiyonu (Fault Injection):** Bellcore Attack (RSA-CRT zafiyeti).
 
 ## 🛡️ 3. Güvenli Implementasyon (Secure Coding)
-- **Memory Safety:** C/C++ zafiyetleri ve Rust gibi dillerin kullanımı.
-- **RNG (Random Number Generation):** Donanım tabanlı (TRNG) ve Yazılım tabanlı (PRNG) rastgelelik.
+- **Constant-Time Code:** Karşılaştırma ve matematiksel işlemlerde zamanlama sızıntısını önleme.
+- **Güvenli Bellek Yönetimi:** Hassas verilerin bellekten temizlenmesi (Zeroing memory).
+- **Side-channel resistance:** Yazılım seviyesinde dirençli kodlama teknikleri.
+
+## 🛠️ Uygulama ve Ödevler
+- [ ] **CTF:** Basit bir RSA zafiyetini (Small e) kullanarak mesajı deşifre edin.
+- [ ] **Kodlama:** Zamanlama saldırısına açık bir string karşılaştırma fonksiyonu yazın ve bunu saptayan bir script geliştirin.
+- [ ] **Araştırma:** Rowhammer saldırısının kriptografik anahtarlar üzerindeki etkisini inceleyin.
+
+## 📖 Önerilen Okumalar
+- Richard A. Mollin - *An Introduction to Cryptography*
+- Stefan Mangard - *Power Analysis Attacks*
 
 ---
 [⬅️ Seviye 2](level-2-modern-crypto.md) | [Seviye 4 ➡️](level-4-advanced-topics.md)
