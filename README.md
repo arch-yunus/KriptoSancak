@@ -53,9 +53,32 @@ Güvenlik statik bir duvar değil, yaşayan bir organizmadır. Gelecek planları
 
 ## 🎓 Kriptoloji Mühendisliği Müfredatı
 
-KriptoSancak, sadece bir teknoloji merkezi değil, aynı zamanda bir eğitim ocağıdır. Sektöre nitelikli kriptoloji mühendisleri kazandırmak amacıyla hazırladığımız kapsamlı müfredata buradan ulaşabilirsiniz:
+KriptoSancak, sadece bir teknoloji merkezi değil, aynı zamanda bir eğitim ocağıdır. Sektöre nitelikli kriptoloji mühendisleri kazandırmak amacıyla hazırladığımız sistemli müfredat, teorik yetkinliği pratik uygulama becerisiyle birleştirir.
 
-👉 **[Müfredatı İncele](curriculum/README.md)**
+### 🗺️ Eğitim Yol Haritası
+
+```mermaid
+graph TD
+    L1[Seviye 1: Temeller] --> L2[Seviye 2: Modern Standartlar]
+    L2 --> L3[Seviye 3: Kriptoanaliz]
+    L3 --> L4[Seviye 4: İleri Teknolojiler]
+    
+    subgraph "KriptoSancak Akademi"
+    L1
+    L2
+    L3
+    L4
+    end
+```
+
+| Seviye | Odak Noktası | Anahtar Kavramlar |
+| :--- | :--- | :--- |
+| **📘 Seviye 1** | **Matematiksel Temeller** | Sayılar Teorisi, Modüler Aritmetik, Soyut Cebir, Klasik Şifreler |
+| **📗 Seviye 2** | **Modern Standartlar** | AES, RSA, ECC, Hash Fonksiyonları, PKI, TLS/SSL |
+| **📙 Seviye 3** | **Kriptoanaliz** | Diferansiyel/Lineer Analiz, Yan Kanal Saldırıları, Güvenli Kodlama |
+| **📕 Seviye 4** | **İleri Teknolojiler** | PQC (Kuantum Sonrası), ZKP, Homomorfik Şifreleme, MPC |
+
+👉 **[Müfredatın Tamamını İncele ve Başla](curriculum/README.md)**
 
 ---
 
