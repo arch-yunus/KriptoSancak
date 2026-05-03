@@ -10,10 +10,18 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Security-Hardened-red?style=for-the-badge" alt="Security">
-  <img src="https://img.shields.io/badge/Phase-Alpha-orange?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/Tests-Passing-brightgreen?style=for-the-badge" alt="Tests">
   <img src="https://img.shields.io/badge/Field-Cryptography-blue?style=for-the-badge" alt="Field">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/badge/Whitepaper-Available-gold?style=for-the-badge" alt="Whitepaper">
 </p>
+
+---
+
+## 📄 Teknik Whitepaper
+
+Projenin felsefesi, matematiksel temelleri ve mimari kararları için hazırladığımız teknik dökümana buradan ulaşabilirsiniz:
+
+👉 **[Teknik Whitepaper'ı Oku](docs/whitepaper.md)**
 
 ---
 
