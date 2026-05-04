@@ -16,6 +16,18 @@ Müfredat, birbirini takip eden 4 ana seviyeden oluşmaktadır:
 Kriptografinin dilini (matematik) öğrenme ve tarihsel gelişimini anlama süreci.
 - [Ayrıntılar: Seviye 1](level-1-foundations.md)
 
+## 🛠️ Uygulama Katmanı: Laboratuvar Egzersizleri
+Teorik bilgiyi pekiştirmek için hazırlanan pratik Python labları:
+- 🧪 **[Lab 01: Yerine Koyma ve Frekans Analizi](labs/lab_01_substitution.py)**
+- 🧪 **[Lab 02: AES-GCM ve AEAD Güvenliği](labs/lab_02_aes_gcm.py)**
+
+## 📐 Teorik Derinlik: Matematiksel Notlar
+Algoritmaların arkasındaki matematiği anlamak için:
+- 📖 **[İleri Matematik Notları (ECC & LWE)](../docs/math_notes.md)**
+
+---
+👉 [Ana Sayfaya Dön](../README.md)
+
 ### 📘 Seviye 2: Modern Kriptografi ve Standartlar
 Günümüz dünyasını koruyan AES, RSA ve ECC gibi standartların derinlemesine incelenmesi.
 - [Ayrıntılar: Seviye 2](level-2-modern-crypto.md)
