@@ -17,19 +17,10 @@
 
 ---
 
-## 📄 Teknik Whitepaper
+## 📐 Mühendislik Prensiplerimiz
 
-Projenin felsefesi, matematiksel temelleri ve mimari kararları için hazırladığımız teknik dökümana buradan ulaşabilirsiniz:
+KriptoSancak, **"Gözlem yoluyla güvenlik"** yerine **"Tasarım yoluyla güvenlik" (Security by Design)** ilkesini benimser.
 
-👉 **[Teknik Whitepaper'ı Oku](docs/whitepaper.md)**
-
----
-
-## 🛡️ Misyon ve Mühendislik Yaklaşımı
-
-KriptoSancak, **"Gözlem yoluyla güvenlik"** yerine **"Tasarım yoluyla güvenlik" (Security by Design)** ilkesini benimser. Sadece algoritmaların uygulanmasını değil, bu algoritmaların donanım ve yazılım katmanlarındaki güvenli implementasyonlarını, yan kanal saldırılarına karşı dirençlerini ve matematiksel doğruluklarını odağına alır.
-
-### 📐 Mühendislik Prensiplerimiz
 1.  **Sabit Zamanlı Kodlama (Constant-Time):** Gizli veriye dayalı dallanmalardan ve bellek erişim modellerinden kaçınarak zamanlama saldırılarını (timing attacks) imkansız kılıyoruz.
 2.  **Yan Kanal Direnci:** Güç analizi (DPA) ve elektromanyetik sızıntılara karşı algoritmik maskeleme tekniklerini araştırıyoruz.
 3.  **Sıfır Güven (Zero-Trust) Mimarisi:** Anahtarların sadece ihtiyaç anında ve izole edilmiş bellek alanlarında (TEE/HSM simülasyonları) var olmasını sağlıyoruz.
@@ -48,44 +39,45 @@ KriptoSancak, **"Gözlem yoluyla güvenlik"** yerine **"Tasarım yoluyla güvenl
 
 ### 3. Araştırma ve Gelecek Vizyonu (Research POCs)
 *   **ZKP (Pedersen Commitments):** $C = g^m h^r \pmod p$ formülüyle veri gizliliğini koruyan taahhüt mekanizması.
-*   **Homomorfik Şifreleme (HE):** Şifreli metinler üzerinde toplama işlemi yapabilen pedagojik Paillier benzeri implementasyon.
+*   **HE (Homomorphic Encryption):** Şifreli metinler üzerinde toplama işlemi yapabilen pedagojik Paillier benzeri implementasyon.
 *   **PQC (LWE):** "Learning With Errors" problemi üzerine kurulu, kuantum saldırılarına dirençli kafes tabanlı şifreleme simülasyonu.
 
 ---
 
-## 🔬 Araştırma ve Teknik Derin İnceleme
+## 🔍 Araştırma Odağı: Kuantum Sonrası Kriptografi (PQC)
 
-KriptoSancak, mühendislik disiplinini akademik araştırmalarla besler. Aşağıda projenin odaklandığı ileri düzey teknik alanlar hakkında detaylı bilgiler yer almaktadır.
+Kuantum bilgisayarlar, mevcut asimetrik algoritmalarımızı (RSA, ECC, Diffie-Hellman) **Shor's Algorithm** kullanarak saniyeler içinde kırabilecektir. KriptoSancak, NIST'in Ağustos 2024'te yayınladığı yeni standartlara odaklanır:
 
-### ⚛️ 1. Post-Quantum Kriptografi (PQC) ve Kuantum Tehdidi
-Mevcut asimetrik sistemler (RSA, ECC), kuantum bilgisayarların çalıştırabileceği **Shor Algoritması** karşısında teorik olarak savunmasızdır.
-- **Tehdit Mekanizması:** Shor algoritması, asal çarpanlara ayırma ve ayrık logaritma problemlerini polinom zamanda çözebilir. Bu durum, internetin temelini oluşturan TLS/SSL el sıkışmalarını geçersiz kılar.
-- **Kafes Tabanlı Çözümler:** PQC modülümüzde temel aldığımız **LWE (Learning With Errors)** problemi, "En Kısa Vektör Problemi" (SVP) gibi kafes tabanlı zorluklara dayanır. Bu problemlerin kuantum bilgisayarlar tarafından bile üstel zamanda çözülemeyeceği öngörülmektedir.
-- **FO-Transform (Fujisaki-Okamoto):** Modern KEM (Key Encapsulation Mechanism) şemalarında (Kyber gibi), CCA güvenliği sağlamak için kullanılan bu dönüşüm, yan kanal analizleri için kritik bir hedef haline gelmektedir.
+| Kategori | Standart | Algoritma | Durum |
+| :--- | :--- | :--- | :--- |
+| **KEM (Encryption)** | **FIPS 203** | **ML-KEM (Kyber)** | Finalize Edildi |
+| **Signature** | **FIPS 204** | **ML-DSA (Dilithium)** | Finalize Edildi |
+| **Signature** | **FIPS 205** | **SLH-DSA (SPHINCS+)** | Finalize Edildi |
+| **Alternative Sig** | **FIPS 206** | **FN-DSA (Falcon)** | Geliştirme Aşamasında |
 
-### 🛡️ 2. Yan Kanal Saldırıları (Side-Channel Attacks - SCA)
-Matematiksel olarak "kırılamaz" olan bir algoritma, fiziksel dünyada çalışırken sızıntı yapabilir.
-- **Güç ve EM Analizi:** İşlemcinin şifreleme sırasında tükettiği akım (SPA/DPA) veya yaydığı elektromanyetik dalgalar, gizli anahtar hakkında bilgi sızdırabilir.
-- **Maskeleme (Masking):** KriptoSancak çekirdeklerinde hedeflediğimiz bu teknikte, hassas değerler rastgele parçalara (shares) bölünür. Saldırganın anahtara ulaşması için tüm parçaları aynı anda sızıntıdan elde etmesi gerekir.
-- **Zamanlama Saldırıları:** `if-else` bloklarının veya bellek erişim sürelerinin işlenen veriye göre değişmesi, saldırganın anahtarı tahmin etmesine olanak tanır. Çözüm: **Constant-Time Coding.**
-
-### 🕵️ 3. Sıfır Bilgi Kanıtları (ZKP) ve Fiziksel Güvenlik
-ZKP protokolleri (zk-SNARKs, zk-STARKs), veriyi paylaşmadan doğruluğunu ispatlar. Ancak bu işlem fiziksel bir donanımda yapıldığında "Sıfır Bilgi" vaadi risk altına girebilir.
-- **Prover Sızıntısı:** Kanıtlayıcı (Prover) tarafında yapılan skaler çarpımlar veya polinom değerlendirmeleri, yan kanal saldırılarına (SCA) maruz kalarak "tanık" (witness) verisini sızdırabilir.
-- **Mühendislik Odak Noktası:** ZKP protokollerinin donanım implementasyonlarında, matematiksel ispatın ötesinde fiziksel sızıntı koruması (masking-friendly circuits) bir zorunluluktur.
+> **⚠️ Q-Day Öngörüsü:** NIST, mevcut kuantum-vulnerable algoritmaların 2030 yılına kadar kullanımdan kaldırılmasını önermektedir.
 
 ---
 
-## 🗺️ Gelecek Yol Haritası (2026-2027)
+## 🛡️ Güvenlik Matrisi: ZKP SNARK vs STARK
 
-```mermaid
-timeline
-    title KriptoSancak Gelişim Planı
-    2026 Q3 : Çekirdek Standartların Tamamlanması : Asimetrik ve Simetrik Modüllerin Kararlı Sürümleri
-    2026 Q4 : PQC Araştırmaları : Dilithium ve Kyber Algoritmalarının Entegrasyonu
-    2027 Q1 : ZKP ve Gizlilik : zk-SNARKs Tabanlı Veri Doğrulama Katmanı
-    2027 Q2 : Ekosistem Genişlemesi : Rust Tabanlı Yüksek Performanslı Hibrit Motor
-```
+Mahremiyet teknolojilerinde kullanılan iki ana kanıt sisteminin karşılaştırması:
+
+| Özellik | zk-SNARKs | zk-STARKs |
+| :--- | :--- | :--- |
+| **Trusted Setup** | Gerekli (Genellikle) | Gerekli Değil (Transparent) |
+| **Kanıt Boyutu** | Çok Küçük (~288 bytes) | Büyük (~45–150 KB) |
+| **Doğrulama Hızı** | Çok Hızlı (Constant) | SNARK'tan Yavaş |
+| **Kuantum Direnci** | Hayır (ECC Tabanlı) | **Evet (Hash Tabanlı)** |
+| **Güvenlik Temeli** | Eliptik Eğriler (ECC) | Çakışma Dirençli Hashler |
+
+---
+
+## 📉 Tehdit Modellemesi: Kuantum Tehdidi
+
+Kuantum bilgisayarların kriptografik etkileri iki ana koldan gelir:
+1.  **Shor's Algorithm:** RSA ve ECC gibi çarpanlara ayırma ve diskret logaritma temelli algoritmaları tamamen etkisiz kılar.
+2.  **Grover's Algorithm:** Simetrik şifreleme ve hash fonksiyonlarının güvenliğini karekök oranında azaltır. (Örn: AES-128, 64-bit seviyesine düşer). Bu yüzden KriptoSancak'ta **AES-256** standarttır.
 
 ---
 
@@ -94,20 +86,6 @@ timeline
 KriptoSancak Akademi bünyesinde, teorik matematiği pratik uygulama ile birleştiren 4 seviyeli bir uzmanlaşma yolu sunuyoruz.
 
 ### 🗺️ Eğitim Yol Haritası
-
-```mermaid
-graph TD
-    L1[Seviye 1: Temeller] --> L2[Seviye 2: Modern Standartlar]
-    L2 --> L3[Seviye 3: Kriptoanaliz]
-    L3 --> L4[Seviye 4: İleri Teknolojiler]
-    
-    subgraph "KriptoSancak Akademi"
-    L1
-    L2
-    L3
-    L4
-    end
-```
 
 | Seviye | Odak Noktası | Anahtar Kavramlar |
 | :--- | :--- | :--- |
@@ -146,13 +124,14 @@ python ksancak.py sign -d "Döküman İçeriği"
 
 # Homomorfik Toplama (HE)
 python ksancak.py he -m1 15 -m2 25
+
+# Performance Benchmarking
+python ksancak.py bench
 ```
 
 ---
 
 ## 📊 Performans Verileri
-
-Algoritmalarımızın verimliliği, mühendislik disiplinimizin en somut göstergesidir.
 
 | Algoritma | İşlem | Kapasite (Hız) |
 | :--- | :--- | :--- |
