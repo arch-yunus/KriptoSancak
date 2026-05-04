@@ -83,18 +83,31 @@ Kuantum bilgisayarların kriptografik etkileri iki ana koldan gelir:
 
 ## 🎓 Kriptoloji Mühendisliği Müfredatı
 
-KriptoSancak Akademi bünyesinde, teorik matematiği pratik uygulama ile birleştiren 4 seviyeli bir uzmanlaşma yolu sunuyoruz.
+KriptoSancak Akademi bünyesinde, teorik matematiği pratik uygulama ile birleştiren, **NIST PQC (FIPS 203, 204, 205)** standartlarını temel alan 4 seviyeli bir uzmanlaşma yolu sunuyoruz.
 
-### 🗺️ Eğitim Yol Haritası
+### 🎯 Müfredat Derinliği ve Yetkinlik Matrisi
 
-| Seviye | Odak Noktası | Anahtar Kavramlar |
+| Seviye | Teknik Kazanımlar | Mühendislik Çıktıları |
 | :--- | :--- | :--- |
-| **📘 Seviye 1** | **Matematiksel Temeller** | Sayılar Teorisi, Modüler Aritmetik, Soyut Cebir, Klasik Şifreler |
-| **📗 Seviye 2** | **Modern Standartlar** | AES, RSA, ECC, Hash Fonksiyonları, PKI, TLS/SSL |
-| **📙 Seviye 3** | **Kriptoanaliz** | Diferansiyel/Lineer Analiz, Yan Kanal Saldırıları, Güvenli Kodlama |
-| **📕 Seviye 4** | **İleri Teknolojiler** | PQC (Kuantum Sonrası), ZKP, Homomorfik Şifreleme, MPC |
+| **📘 Seviye 1** | Modüler Aritmetik, Grup Teorisi, Klasik Şifre Analizi | Özel kriptografik araçlar için matematiksel kütüphane geliştirme. |
+| **📗 Seviye 2** | AES/ECC İç Yapısı, PKI Mimarisi, TLS 1.3 El Sıkışması | Kurumsal düzeyde güvenli haberleşme protokolü tasarımı. |
+| **📙 Seviye 3** | Diferansiyel Analiz, Timing Attacks, Maskeleme Teknikleri | Donanım ve yazılımda yan kanal sızıntılarını saptama ve önleme. |
+| **📕 Seviye 4** | **ML-KEM (FIPS 203)**, **ML-DSA (FIPS 204)**, zk-SNARKs | Kuantum sonrası çağa hazır, mahremiyet korumalı otonom sistemler. |
 
-👉 **[Müfredatın Tamamını İncele ve Başla](curriculum/README.md)**
+### 🔄 Kripto-Çeviklik ve Hibrit Geçiş Stratejileri
+Geleceğin mühendisi, sistemleri algoritmalar arası geçişe uygun (Agile) tasarlamalıdır.
+- **Hibrit Anahtar Mutabakatı:** Klasik ECDH ile kuantum-dirençli ML-KEM algoritmalarının, mevcut standartlara (FIPS 140-3) uyumlu şekilde beraber çalıştırılması.
+- **Envanter ve Keşif (Discovery):** Kuantum-kırılgan algoritmaların saptanması ve "Harvest Now, Decrypt Later" tehdidine karşı veri önceliklendirme stratejileri.
+
+👉 **[Müfredatın Detaylarını ve Lab Egzersizlerini İncele](curriculum/README.md)**
+
+---
+
+## 📜 Standartlar ve Regülasyon Katmanı
+*   **FIPS 203 (ML-KEM):** Lattice-tabanlı anahtar kapsülleme standardı.
+*   **FIPS 204 (ML-DSA):** Lattice-tabanlı dijital imza standardı.
+*   **FIPS 205 (SLH-DSA):** Stateless hash-tabanlı dijital imza standardı.
+*   **FIPS 140-3:** Kriptografik modüllerin güvenlik gereksinimleri ve onay süreçleri.
 
 ---
 
