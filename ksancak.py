@@ -1,8 +1,9 @@
-import argparse
+﻿import argparse
 import sys
 import base64
 import json
 import os
+import io
 
 # Add parent to path for imports
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
@@ -10,12 +11,13 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from core.crypto_engine import CryptoEngine
 from core.asymmetric import AsymmetricEngine
 from core.hashing import HashEngine
+from core.vault import SancakVault
 from privacy.commitments import PedersenCommitment
+from privacy.zkp_discrete_log import SchnorrZKP
 
 # Dynamic imports for experimental modules
 from post_quantum.lwe_poc import LWE_POC
 from privacy.did_poc import DID_POC
-from privacy.homomorphic_poc import HomomorphicPOC
 from core.ael import AutonomousEncryptionLayer
 
 def main():
@@ -32,23 +34,21 @@ def main():
     hash_parser.add_argument("-d", "--data", required=True)
     hash_parser.add_argument("-b", "--bits", choices=["256", "512"], default="256")
 
-    sign_parser = subparsers.add_parser("sign", help="Ed25519 Signing")
-    sign_parser.add_argument("-d", "--data", required=True)
+    # --- Vault Commands ---
+    vault_parser = subparsers.add_parser("vault", help="Sancak Vault Operations")
+    vault_parser.add_argument("action", choices=["create", "unlock"])
+    vault_parser.add_argument("-p", "--password", required=True)
+    vault_parser.add_argument("-d", "--data", help="JSON data for create")
+    vault_parser.add_argument("-f", "--file", help="Vault file path")
 
     # --- Experimental POC Commands ---
     commit_parser = subparsers.add_parser("commit", help="Pedersen Commitment (ZKP POC)")
     commit_parser.add_argument("-m", "--message", type=int, required=True)
 
-    did_parser = subparsers.add_parser("did", help="Generate DID Document")
-    did_parser.add_argument("-n", "--name", required=True)
-
-    he_parser = subparsers.add_parser("he", help="Homomorphic Encryption (Additive POC)")
-    he_parser.add_argument("-m1", type=int, required=True)
-    he_parser.add_argument("-m2", type=int, required=True)
-
-    ael_parser = subparsers.add_parser("ael", help="Autonomous Encryption Layer simulation")
-    ael_parser.add_argument("-t", "--threat", choices=["LOW", "MEDIUM", "HIGH"], default="LOW")
-    ael_parser.add_argument("-d", "--data", required=True)
+    zkp_parser = subparsers.add_parser("zkp", help="Schnorr ZKP Operations")
+    zkp_parser.add_argument("action", choices=["prove", "verify"])
+    
+    bench_parser = subparsers.add_parser("bench", help="Run Performance Benchmarks")
 
     args = parser.parse_args()
 
@@ -63,37 +63,31 @@ def main():
         digest = HashEngine.sha3_256(data) if args.bits == "256" else HashEngine.sha3_512(data)
         print(f"SHA3-{args.bits} Hash: {digest.hex()}")
 
-    elif args.command == "sign":
-        priv, pub = AsymmetricEngine.generate_ed25519_keys()
-        sig = AsymmetricEngine.sign_ed25519(priv, args.data.encode())
-        print(f"Public Key (HEX): {AsymmetricEngine.serialize_public_key(pub).hex()}\nSignature (HEX): {sig.hex()}")
+    elif args.command == "vault":
+        if args.action == "create":
+            secret = json.loads(args.data) if args.data else {"note": "Empty Vault"}
+            container = SancakVault.create_secure_container(args.password, secret)
+            print(f"Vault created successfully. Salted container (HEX): {container.hex()[:64]}...")
+        elif args.action == "unlock":
+            # This would normally read from args.file, for POC we assume input is hex
+            container = bytes.fromhex(args.data)
+            decrypted = SancakVault.unlock_secure_container(args.password, container)
+            print(f"Vault unlocked:\n{json.dumps(decrypted, indent=2)}")
 
-    elif args.command == "commit":
-        comm, r = PedersenCommitment.commit(args.message)
-        print(f"Commitment: {comm}\nBlinding Factor (r): {r}")
+    elif args.command == "zkp":
+        zkp = SchnorrZKP()
+        if args.action == "prove":
+            x, y = zkp.generate_keypair()
+            proof = zkp.prove(x, y)
+            print(f"Public Y: {y}\nProof (c, s, r): {proof}")
+        elif args.action == "verify":
+            print("Verification requires parameters. Use the class directly for complex flows.")
 
-    elif args.command == "pqc":
-        lwe = LWE_POC()
-        A, b = lwe.generate_samples()
-        u, v = lwe.encrypt_bit(A, b, args.bit)
-        print(f"Encrypted Bit: {args.bit}\nVector U: {u.tolist()[:5]}...\nValue V: {v}")
-
-    elif args.command == "did":
-        did_id, doc, priv = DID_POC.create_did_document(args.name)
-        print(f"DID ID: {did_id}\nDocument:\n{json.dumps(doc, indent=2)}")
-
-    elif args.command == "he":
-        he = HomomorphicPOC()
-        c1 = he.encrypt(args.m1)
-        c2 = he.encrypt(args.m2)
-        c_sum = he.add_encrypted(c1, c2)
-        res = he.decrypt(c_sum)
-        print(f"M1: {args.m1}, M2: {args.m2}\nDecrypted Sum: {res}")
-
-    elif args.command == "ael":
-        ael = AutonomousEncryptionLayer(args.threat)
-        res = ael.protect_data(args.data.encode())
-        print(f"Threat Level: {args.threat}\nSelected Algo: {res['meta']['algo'].upper()}\nCiphertext (B64): {base64.b64encode(res['ciphertext']).decode()}")
+    elif args.command == "bench":
+        import benchmarks.crypto_bench as bench
+        bench.benchmark_symmetric()
+        bench.benchmark_hashing()
+        bench.benchmark_asymmetric()
 
     else:
         parser.print_help()
