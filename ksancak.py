@@ -15,6 +15,7 @@ from privacy.commitments import PedersenCommitment
 # Dynamic imports for experimental modules
 from post_quantum.lwe_poc import LWE_POC
 from privacy.did_poc import DID_POC
+from privacy.homomorphic_poc import HomomorphicPOC
 from core.ael import AutonomousEncryptionLayer
 
 def main():
@@ -40,6 +41,10 @@ def main():
 
     did_parser = subparsers.add_parser("did", help="Generate DID Document")
     did_parser.add_argument("-n", "--name", required=True)
+
+    he_parser = subparsers.add_parser("he", help="Homomorphic Encryption (Additive POC)")
+    he_parser.add_argument("-m1", type=int, required=True)
+    he_parser.add_argument("-m2", type=int, required=True)
 
     ael_parser = subparsers.add_parser("ael", help="Autonomous Encryption Layer simulation")
     ael_parser.add_argument("-t", "--threat", choices=["LOW", "MEDIUM", "HIGH"], default="LOW")
@@ -76,6 +81,14 @@ def main():
     elif args.command == "did":
         did_id, doc, priv = DID_POC.create_did_document(args.name)
         print(f"DID ID: {did_id}\nDocument:\n{json.dumps(doc, indent=2)}")
+
+    elif args.command == "he":
+        he = HomomorphicPOC()
+        c1 = he.encrypt(args.m1)
+        c2 = he.encrypt(args.m2)
+        c_sum = he.add_encrypted(c1, c2)
+        res = he.decrypt(c_sum)
+        print(f"M1: {args.m1}, M2: {args.m2}\nDecrypted Sum: {res}")
 
     elif args.command == "ael":
         ael = AutonomousEncryptionLayer(args.threat)

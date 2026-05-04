@@ -39,9 +39,10 @@ KriptoSancak, **"Gözlem yoluyla güvenlik"** yerine **"Tasarım yoluyla güvenl
 *   **Bütünlük Kontrolü:** SHA-3 (Keccak) ailesi ve HMAC tabanlı veri doğrulama mekanizmaları.
 
 ### 2. Gelişmiş ve Deneysel Protokoller (Research POCs)
-*   **Sıfır Bilgi Kanıtları (ZKP):** Pedersen Commitment şeması ile veriyi ifşa etmeden doğrulama altyapısı.
-*   **Kuantum Sonrası Direnç (PQC):** Kafes tabanlı şifrelemenin temeli olan **Learning With Errors (LWE)** POC uygulaması.
-*   **Otonom Savunma (AEL):** Tehdit seviyelerine göre dinamik algoritma seçimi yapan otonom şifreleme katmanı.
+*   **Sıfır Bilgi Kanıtları (ZKP):** Pedersen Commitment şeması ile veri gizliliği.
+*   **Homomorfik Şifreleme (HE):** Şifreli veriler üzerinde toplama işlemi yapabilen **Partially Homomorphic Encryption** POC uygulaması.
+*   **Kuantum Sonrası Direnç (PQC):** Kafes tabanlı **LWE (Learning With Errors)** simülasyonu.
+*   **Otonom Savunma:** Tehdit seviyesine göre dinamik algoritma seçimi (AEL).
 *   **Veri Egemenliği:** **DID (Decentralized Identity)** ve SSI temelli kimlik doğrulama simülasyonları.
 
 ---
@@ -89,6 +90,27 @@ graph TD
 | **📕 Seviye 4** | **İleri Teknolojiler** | PQC (Kuantum Sonrası), ZKP, Homomorfik Şifreleme, MPC |
 
 👉 **[Müfredatın Tamamını İncele ve Başla](curriculum/README.md)**
+
+---
+
+## 🗺️ Gelecek Yol Haritası (2026-2027)
+
+```mermaid
+timeline
+    title KriptoSancak Gelişim Planı
+    2026 Q3 : Çekirdek Standartların Tamamlanması : Asimetrik ve Simetrik Modüllerin Kararlı Sürümleri
+    2026 Q4 : PQC Araştırmaları : Dilithium ve Kyber Algoritmalarının Entegrasyonu
+    2027 Q1 : ZKP ve Gizlilik : zk-SNARKs Tabanlı Veri Doğrulama Katmanı
+    2027 Q2 : Ekosistem Genişlemesi : Rust Tabanlı Yüksek Performanslı Hibrit Motor
+```
+
+---
+
+## 📄 Teknik Dökümantasyon
+- [Teknik Whitepaper](docs/whitepaper.md)
+- [API Referans Rehberi](docs/api.md)
+- [Eğitim Müfredatı](curriculum/README.md)
+- [Okuma Listesi](docs/reading_list.md)
 
 ---
 

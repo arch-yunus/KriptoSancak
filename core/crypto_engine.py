@@ -1,7 +1,8 @@
-import os
+﻿import os
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM, ChaCha20Poly1305
 from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
 from cryptography.exceptions import InvalidTag
+import io
 
 class CryptoEngine:
     """KriptoSancak Core Cryptographic Engine"""
@@ -60,3 +61,35 @@ class CryptoEngine:
             return chacha.decrypt(nonce, ciphertext, associated_data)
         except InvalidTag:
             raise ValueError("Decryption failed: Invalid tag or modified data.")
+
+    @staticmethod
+    def encrypt_stream(key: bytes, input_stream, output_stream, chunk_size=64*1024):
+        """Stream-based encryption (AES-GCM for each chunk)"""
+        aesgcm = AESGCM(key)
+        while True:
+            chunk = input_stream.read(chunk_size)
+            if not chunk:
+                break
+            nonce = os.urandom(12)
+            ciphertext = aesgcm.encrypt(nonce, chunk, None)
+            # Write chunk size, nonce, and ciphertext
+            output_stream.write(len(ciphertext).to_bytes(4, 'big'))
+            output_stream.write(nonce)
+            output_stream.write(ciphertext)
+
+    @staticmethod
+    def decrypt_stream(key: bytes, input_stream, output_stream):
+        """Stream-based decryption"""
+        aesgcm = AESGCM(key)
+        while True:
+            size_bytes = input_stream.read(4)
+            if not size_bytes:
+                break
+            size = int.from_bytes(size_bytes, 'big')
+            nonce = input_stream.read(12)
+            ciphertext = input_stream.read(size)
+            try:
+                decrypted = aesgcm.decrypt(nonce, ciphertext, None)
+                output_stream.write(decrypted)
+            except InvalidTag:
+                raise ValueError("Stream decryption failed: Invalid tag.")
