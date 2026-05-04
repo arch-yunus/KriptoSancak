@@ -53,6 +53,29 @@ KriptoSancak, **"Gözlem yoluyla güvenlik"** yerine **"Tasarım yoluyla güvenl
 
 ---
 
+## 🔬 Araştırma ve Teknik Derin İnceleme
+
+KriptoSancak, mühendislik disiplinini akademik araştırmalarla besler. Aşağıda projenin odaklandığı ileri düzey teknik alanlar hakkında detaylı bilgiler yer almaktadır.
+
+### ⚛️ 1. Post-Quantum Kriptografi (PQC) ve Kuantum Tehdidi
+Mevcut asimetrik sistemler (RSA, ECC), kuantum bilgisayarların çalıştırabileceği **Shor Algoritması** karşısında teorik olarak savunmasızdır.
+- **Tehdit Mekanizması:** Shor algoritması, asal çarpanlara ayırma ve ayrık logaritma problemlerini polinom zamanda çözebilir. Bu durum, internetin temelini oluşturan TLS/SSL el sıkışmalarını geçersiz kılar.
+- **Kafes Tabanlı Çözümler:** PQC modülümüzde temel aldığımız **LWE (Learning With Errors)** problemi, "En Kısa Vektör Problemi" (SVP) gibi kafes tabanlı zorluklara dayanır. Bu problemlerin kuantum bilgisayarlar tarafından bile üstel zamanda çözülemeyeceği öngörülmektedir.
+- **FO-Transform (Fujisaki-Okamoto):** Modern KEM (Key Encapsulation Mechanism) şemalarında (Kyber gibi), CCA güvenliği sağlamak için kullanılan bu dönüşüm, yan kanal analizleri için kritik bir hedef haline gelmektedir.
+
+### 🛡️ 2. Yan Kanal Saldırıları (Side-Channel Attacks - SCA)
+Matematiksel olarak "kırılamaz" olan bir algoritma, fiziksel dünyada çalışırken sızıntı yapabilir.
+- **Güç ve EM Analizi:** İşlemcinin şifreleme sırasında tükettiği akım (SPA/DPA) veya yaydığı elektromanyetik dalgalar, gizli anahtar hakkında bilgi sızdırabilir.
+- **Maskeleme (Masking):** KriptoSancak çekirdeklerinde hedeflediğimiz bu teknikte, hassas değerler rastgele parçalara (shares) bölünür. Saldırganın anahtara ulaşması için tüm parçaları aynı anda sızıntıdan elde etmesi gerekir.
+- **Zamanlama Saldırıları:** `if-else` bloklarının veya bellek erişim sürelerinin işlenen veriye göre değişmesi, saldırganın anahtarı tahmin etmesine olanak tanır. Çözüm: **Constant-Time Coding.**
+
+### 🕵️ 3. Sıfır Bilgi Kanıtları (ZKP) ve Fiziksel Güvenlik
+ZKP protokolleri (zk-SNARKs, zk-STARKs), veriyi paylaşmadan doğruluğunu ispatlar. Ancak bu işlem fiziksel bir donanımda yapıldığında "Sıfır Bilgi" vaadi risk altına girebilir.
+- **Prover Sızıntısı:** Kanıtlayıcı (Prover) tarafında yapılan skaler çarpımlar veya polinom değerlendirmeleri, yan kanal saldırılarına (SCA) maruz kalarak "tanık" (witness) verisini sızdırabilir.
+- **Mühendislik Odak Noktası:** ZKP protokollerinin donanım implementasyonlarında, matematiksel ispatın ötesinde fiziksel sızıntı koruması (masking-friendly circuits) bir zorunluluktur.
+
+---
+
 ## 🗺️ Gelecek Yol Haritası (2026-2027)
 
 ```mermaid
