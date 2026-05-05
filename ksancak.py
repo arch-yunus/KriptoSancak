@@ -1,4 +1,4 @@
-﻿import argparse
+import argparse
 import sys
 import base64
 import json
@@ -67,21 +67,25 @@ def main():
         if args.action == "create":
             secret = json.loads(args.data) if args.data else {"note": "Empty Vault"}
             container = SancakVault.create_secure_container(args.password, secret)
-            print(f"Vault created successfully. Salted container (HEX): {container.hex()[:64]}...")
+            print(f"Vault created successfully.\nContainer (HEX): {container.hex()}")
         elif args.action == "unlock":
-            # This would normally read from args.file, for POC we assume input is hex
             container = bytes.fromhex(args.data)
             decrypted = SancakVault.unlock_secure_container(args.password, container)
             print(f"Vault unlocked:\n{json.dumps(decrypted, indent=2)}")
+
+    elif args.command == "commit":
+        pc = PedersenCommitment()
+        commitment, r = pc.commit(args.message)
+        print(f"Message: {args.message}\nCommitment: {commitment}\nBlinding Factor (r): {r}")
 
     elif args.command == "zkp":
         zkp = SchnorrZKP()
         if args.action == "prove":
             x, y = zkp.generate_keypair()
             proof = zkp.prove(x, y)
-            print(f"Public Y: {y}\nProof (c, s, r): {proof}")
+            print(f"Public Key (y): {y}\nSecret (x): {x}\nProof (c, s, t): {proof}")
         elif args.action == "verify":
-            print("Verification requires parameters. Use the class directly for complex flows.")
+            print("Please use the API for verification; parameters required.")
 
     elif args.command == "bench":
         import benchmarks.crypto_bench as bench

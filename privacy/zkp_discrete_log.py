@@ -1,60 +1,49 @@
-﻿import hashlib
-import os
 import random
+import hashlib
 
 class SchnorrZKP:
     """
-    Schnorr Non-Interactive Zero-Knowledge Proof.
-    Proves knowledge of 'x' such that y = g^x mod p without revealing x.
+    Non-interactive Schnorr Proof of Knowledge of Discrete Log.
+    Proves knowledge of x such that y = g^x (mod p).
     """
-
     def __init__(self, p=None, g=None):
-        # Using a small prime for POC, in production use NIST or 2048-bit primes
-        self.p = p or 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFF
+        self.p = p or 2**255 - 19
         self.g = g or 2
 
     def generate_keypair(self):
-        """Generates secret x and public y"""
         x = random.randint(1, self.p - 1)
         y = pow(self.g, x, self.p)
         return x, y
 
     def prove(self, x, y):
-        """Generates a proof (c, s)"""
-        # 1. Commitment: pick random k, compute r = g^k mod p
-        k = random.randint(1, self.p - 1)
-        r = pow(self.g, k, self.p)
-
-        # 2. Challenge: c = H(g, y, r)
-        c_hash = hashlib.sha256(f"{self.g}{y}{r}".encode()).hexdigest()
-        c = int(c_hash, 16) % self.p
-
-        # 3. Response: s = k + c*x mod (p-1)
-        s = (k + c * x) % (self.p - 1)
-
-        return (c, s, r)
+        # r = random nonce
+        r = random.randint(1, self.p - 1)
+        t = pow(self.g, r, self.p)
+        
+        # c = hash(g, y, t)
+        h = hashlib.sha256()
+        h.update(str(self.g).encode())
+        h.update(str(y).encode())
+        h.update(str(t).encode())
+        c = int(h.hexdigest(), 16) % self.p
+        
+        # s = r + c*x (mod q) - simplified q = p-1
+        s = (r + c * x) % (self.p - 1)
+        
+        return c, s, t
 
     def verify(self, y, proof):
-        """Verifies the proof (c, s, r)"""
-        c, s, r = proof
+        c, s, t = proof
         
-        # Check if g^s == r * y^c mod p
+        # Verify g^s == t * y^c (mod p)
         lhs = pow(self.g, s, self.p)
-        rhs = (r * pow(y, c, self.p)) % self.p
+        rhs = (t * pow(y, c, self.p)) % self.p
         
-        # Also recompute c to ensure it's not a chosen challenge
-        c_verify_hash = hashlib.sha256(f"{self.g}{y}{r}".encode()).hexdigest()
-        c_verify = int(c_verify_hash, 16) % self.p
+        # Also re-calculate c to ensure non-interactivity
+        h = hashlib.sha256()
+        h.update(str(self.g).encode())
+        h.update(str(y).encode())
+        h.update(str(t).encode())
+        c_expected = int(h.hexdigest(), 16) % self.p
         
-        return lhs == rhs and c == c_verify
-
-if __name__ == "__main__":
-    zkp = SchnorrZKP()
-    x, y = zkp.generate_keypair()
-    print(f"Secret x: [HIDDEN], Public y: {y}")
-    
-    proof = zkp.prove(x, y)
-    print(f"Proof generated: c={proof[0]}, s={proof[1]}")
-    
-    is_valid = zkp.verify(y, proof)
-    print(f"Is proof valid? {is_valid}")
+        return lhs == rhs and c == c_expected
